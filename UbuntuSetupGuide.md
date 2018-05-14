@@ -59,3 +59,13 @@ Once this is complete, reboot the pc and alter the settings via the standard mou
 Enable the `native scrolling` and `tap-to-click` options.
 
 It may then also be desirable to add gesture support via libinput-gestures.
+
+## Fix Recurring Ubuntu Plymouth Error on Startup
+On startup, ubunutu calls the plymouth deamon.
+This handles the use of splash screens for boot and shutdown, but is known to be buggy in ubuntu 16.04 gnome.
+
+The problem can be fixed by installing the full plymouth package via the command:
+```
+sudo apt install plymouth-x11
+```
+A reboot will then confirm the correct function of the implemented fix by not producing an error.
