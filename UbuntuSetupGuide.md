@@ -133,7 +133,7 @@ Run the folowing to inform grub of the updates and reboot to see their effects.
 sudo update-grub
 ```
 
-### (Optional) Add a Theme
+### Add a Theme
 To improve the visual appeal of the grub loader it is also possible to add a visual theme such as [Vimix](https://github.com/vinceliuice/grub2-themes).
 
 This is carried out by first copying the theme files to the downloads folder via:
@@ -157,3 +157,65 @@ rm -rdf grub2-themes/
 ```
 The final step is then to uncomment the reference to `GRUB_THEME` above and update grub.
 The changes will then be visible on reboot.
+
+### Improve the theme
+The background to the theme is jpeg-y and unatttractive, it can be replaced with [another option](background.png) by copying the file into the directory created above and altering the the `themes.txt` file to match the folowing:
+
+```
+# GRUB2 gfxmenu Linux Vimix theme
+# Designed for any resolution
+
+# Global Property
+title-text: ""
+desktop-image: "background.png"
+desktop-color: "#000000"
+terminal-font: "Ubuntu R *.pf2"
+terminal-box: "terminal_box_*.png"
+terminal-left: "0"
+terminal-top: "0"
+terminal-width: "100%"
+terminal-height: "100%"
+terminal-border: "0"
+
+# Show the boot menu
++ boot_menu {
+  left = 60%
+  top = 20%
+  width = 30%
+  height = 60%
+  item_font = "Ubuntu R 16"
+  item_color = "#cccccc"
+  selected_item_color = "#ffffff"
+  item_height = 24
+  item_spacing = 12
+  selected_item_pixmap_style = "select_*.png"
+}
+
+# Show a countdown message using the label component
++ label {
+  top = 82%
+  left = 35%
+  width = 30%
+  align = "center"
+  id = "__timeout__"
+  text = "Booting in %d seconds"
+  color = "#cccccc"
+  font = "Ubuntu R 16"
+}
+
+# Show a message with instruction prompt
++ label {
+  left = 60%
+  top = 18%
+  width = 30%
+  height = 10%
+  font = "Ubuntu R 36"
+  align = "left"
+  text = "Select Boot Option:"
+  color = "#cccccc"
+
+}
+```
+__Note:__ The font sytle options appear not to have any effect so the relevent .pf2 files are not provided.
+
+As before, the changes are visible upon update of grep and reboot.
