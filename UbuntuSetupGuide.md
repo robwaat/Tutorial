@@ -69,3 +69,91 @@ The problem can be fixed by installing the full plymouth package via the command
 sudo apt install plymouth-x11
 ```
 A reboot will then confirm the correct function of the implemented fix by not producing an error.
+
+## Grub Improvements
+A few changes to the default grub bootloader setup can make it more functional and visually attractive.
+
+To change the settings such that the bootloader will wait for user input before automatically selecting the default option run the following commands to edit the grub config file.
+```
+cd /etc/default/
+ls
+sudo gedit grub
+```
+This will change to the location of grub's config file and open it in the gedit text editor with write privileges.
+
+It can then be altered to match the following code.
+__Note:__ the `GRUB_THEME` line should be uncommented only once the theme has been installed.
+```
+# If you change this file, run 'update-grub' afterwards to update
+# /boot/grub/grub.cfg.
+# For full documentation of the options in this file, see:
+#   info -f grub -n 'Simple configuration'
+
+GRUB_DEFAULT=2
+GRUB_TIMEOUT_STYLE=menu
+GRUB_TIMEOUT=-1
+GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+GRUB_CMDLINE_LINUX=""
+
+# Uncomment to enable BadRAM filtering, modify to suit your needs
+# This works with Linux (no patch required) and with any kernel that obtains
+# the memory map information from GRUB (GNU Mach, kernel of FreeBSD ...)
+#GRUB_BADRAM="0x01234567,0xfefefefe,0x89abcdef,0xefefefef"
+
+# Uncomment to disable graphical terminal (grub-pc only)
+#GRUB_TERMINAL=console
+
+# The resolution used on graphical terminal
+# note that you can use only modes which your graphic card supports via VBE
+# you can see them in real GRUB with the command `vbeinfo'
+GRUB_GFXMODE=1920x1080
+#GRUB_THEME="/boot/grub/themes/Vimix/theme.txt"
+# Theme copied from https://github.com/vinceliuice/grub2-themes
+
+# Uncomment if you don't want GRUB to pass "root=UUID=xxx" parameter to Linux
+#GRUB_DISABLE_LINUX_UUID=true
+
+# Uncomment to disable generation of recovery mode menu entries
+#GRUB_DISABLE_RECOVERY="true"
+
+# Uncomment to get a beep at grub start
+#GRUB_INIT_TUNE="480 440 1"
+```
+The most relevant parameters here are the:
+  * `GRUB_TIMEOUT_STYLE=menu` which will apply the timeout period once the main screen has been displayed.
+  * `GRUB_TIMEOUT=-1` which sets the time before the bootloader automatically selects an OS to infinite.
+  * `GRUB_GFXMODE=1920x1080` which enables the graphics mode options in grub and sets the resolution to the of a standard HD monitor.
+  * `GRUB_THEME=<path>\theme.txt` which informs grub that it should use a theme document and provides the location of a plaintext descriptor for such.
+  
+The file can now be saved and closed.
+
+Run the folowing to inform grub of the updates and reboot to see their effects.
+```
+sudo update-grub
+```
+
+### (Optional) Add a Theme
+To improve the visual appeal of the grub loader it is also possible to add a visual theme such as [Vimix](https://github.com/vinceliuice/grub2-themes).
+
+This is carried out by first copying the theme files to the downloads folder via:
+```
+git clone https://github.com/vinceliuice/grub2-themes.git
+```
+The theme may work from here, but its best to move it somewhere it's less linkely to be disturbed.
+One option is to store in alongside the other grub config files, making the following directory.
+```
+sudo mkdir /boot/grub/themes
+```
+However, care should always be taken when altering the contents of `/boot/`.
+
+The images and descriptor for the theme can then be copied into this directory via
+```
+sudo cp -r ~/Downloads/grub2-themes/grub-themes-vimix/Vimix ~/boot/grub/themes/
+```
+Once this is complete the downloaded theme can be removed via the below, cleaning up the downloads folder.
+```
+rm -rdf grub2-themes/
+```
+The final step is then to uncomment the reference to `GRUB_THEME` above and update grub.
+The changes will then be visible on reboot.
