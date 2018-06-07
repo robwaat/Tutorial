@@ -60,7 +60,7 @@ Enable the `native scrolling` and `tap-to-click` options.
 
 It may then also be desirable to add gesture support via libinput-gestures.
 
-## Fix Recurring Ubuntu Plymouth Error on Startup
+## "Fix" Recurring Ubuntu Plymouth Error on Startup
 On startup, ubunutu calls the plymouth deamon.
 This handles the use of splash screens for boot and shutdown, but is known to be buggy in ubuntu 16.04 gnome.
 
