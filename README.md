@@ -1,2 +1,2 @@
 # Tutorial
-Git Training repo
+A repository of instructions on computing setup.
